@@ -15,11 +15,13 @@ const LiveTimer = (props: Props) => {
         return sessionTimeValue * 60
     }, [])
 
+
+    const { AllSessionsTimeIncrement } = useStoreActions((actions) => actions.AllSessionsTime)
+    const { startSessionAction } = useStoreActions((actions) => actions.startSession)
+
+
     const calculatePercentage = () => {
-        //Percentage =passed secondes  * 100 / sessionInSecondes
-
         return secondesPassed * 100 / sessionInSecondes
-
     }
     useEffect(() => {
 
@@ -65,7 +67,11 @@ const LiveTimer = (props: Props) => {
                 </div>
             </div>
             <div className=" flex flex-row space-x-10 ">
-                <Button type="normal" text="Stop" className={"border-4 text-orange border-orange px-10 py-1"} />
+                <Button handleClick={() => {
+                    AllSessionsTimeIncrement(secondesPassed)
+                    startSessionAction()
+                }}
+                    type="normal" text="Stop" className={"border-4 text-orange border-orange px-10 py-1"} />
                 <Button type="normal" text="Rest" className={'border-4 border-secWhite text-secWhite px-10 py-1'} />
             </div>
 
