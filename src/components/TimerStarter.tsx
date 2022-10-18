@@ -5,7 +5,7 @@ import { IconContext } from "react-icons";
 import { useStoreState, useStoreActions } from '../lib/store';
 export default function TimerStarter(): ReactElement {
     const { startSessionAction } = useStoreActions((actions) => actions.startSession)
-    const { sessionTimeValue } = useStoreState((state: any) => state.sessionTime)
+    const { sessionTimeValue } = useStoreState((state) => state.sessionTime)
     const { sessionTimeIncrement } = useStoreActions((actions) => actions.sessionTime)
     const { sessionTimeDecrement } = useStoreActions((actions) => actions.sessionTime)
 

@@ -41,19 +41,27 @@ const AllSessionsTime: AllSessionsTimeModel = {
         //payload is the value of secondesPassed (in secondes)
         let TimePassedInMinutes = Math.round(payload / 60)
         state.AllSessionsTimeValue = state.AllSessionsTimeValue + TimePassedInMinutes
-        console.log(state.AllSessionsTimeValue)
     })
 }
 
+interface AllrestTimeModel {
+    AllrestTimeValue: number;
+    AllrestTimeIncrement: Action<AllrestTimeModel, number>
+}
+
+const restTime: AllrestTimeModel = {
+    AllrestTimeValue: 0,
+    AllrestTimeIncrement: action((state, payload) => {
+        state.AllrestTimeValue = payload
+    })
+}
 interface stateModel {
     actualSessionTime: number,
-    restTime: number,
     AllRestTime: number,
     goal: number,
 }
 const state: stateModel = {
     actualSessionTime: 0,
-    restTime: 0,
     AllRestTime: 0,
     goal: 8,
 }
@@ -63,12 +71,14 @@ interface storeModel {
     startSession: startSessionModel;
     sessionTime: sessionTimeModel;
     AllSessionsTime: AllSessionsTimeModel;
+    restTime: AllrestTimeModel;
     state: stateModel
 }
 const model: storeModel = {
     startSession,
     sessionTime,
     AllSessionsTime,
+    restTime,
     state
 }
 
