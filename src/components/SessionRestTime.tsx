@@ -26,7 +26,7 @@ export default function SessionRestTime({ start }: Props) {
         }
     }, [secondes, start])
     return (
-        <div className="w-48 h-48  flex flex-col justify-start text-secWhite">
+        <div className="w-48 h-48 flex flex-col justify-start text-secWhite">
             <p className='font-light text-3xl'>Rest time</p>
             <p className='font-light text-xl'>(In this session)</p>
             <p className='font-bold text-5xl text-white mt-2'>{`${minutes}:${secondes < 10 ? 0 : ''}${secondes}`}</p>

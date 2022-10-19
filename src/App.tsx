@@ -2,7 +2,7 @@ import TimerStarter from './components/TimerStarter';
 
 import './App.css';
 import LiveTimer from './components/LiveTimer';
-import EndTimer from './components/EndTimer';
+import ManageTimer from './components/ManageTimer';
 import Analyse from './components/Analyse';
 
 import { useStoreState } from 'easy-peasy';
@@ -20,7 +20,7 @@ function App() {
 
 
 
-      <EndTimer />
+      <ManageTimer />
 
       <Analyse />
     </div>
