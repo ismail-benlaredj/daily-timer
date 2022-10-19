@@ -1,12 +1,16 @@
-import { useStoreState } from 'easy-peasy'
-import { buildStyles, CircularProgressbar, CircularProgressbarWithChildren } from 'react-circular-progressbar'
+import { useStoreState, useStoreActions } from '../lib/store';
+import { useState } from 'react'
+import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar'
 import Button from './Button'
+import SetNewGoal from './SetNewGoal'
 
 type Props = {}
 
 function ManageTimer({ }: Props) {
-    const { AllrestTimeValue } = useStoreState((state: any) => state.restTime)
-    const { AllSessionsTimeValue } = useStoreState((state: any) => state.AllSessionsTime)
+    const { goalValue } = useStoreState((state) => state.goal)
+    const [newGoalUi, setNewGoalUi] = useState(false)
+    const { AllrestTimeValue } = useStoreState((state) => state.restTime)
+    const { AllSessionsTimeValue } = useStoreState((state) => state.AllSessionsTime)
     const restTimeSet = (): string => {
         let minutes = Math.floor(AllrestTimeValue / 60)
         let hours = Math.floor(minutes / 60)
@@ -14,14 +18,16 @@ function ManageTimer({ }: Props) {
         minutes = minutes % 60
         return `${hours}:${minutes < 10 ? 0 : ''}${minutes}`
     }
-
     const calculatePercentage = (): number => {
         let goalTimeInMinutes = 60 * 8
         let percentage = AllSessionsTimeValue * 100 / goalTimeInMinutes
         return percentage
     }
+
+    const handleSetGoalUi = () => setNewGoalUi(!newGoalUi)
     return (
-        <div className="mt-24 flex flex-col text-white text-center justify-center content-center items-center space-y-8 ">
+        <div className="mt-24 relative flex flex-col text-white text-center justify-center content-center items-center space-y-8 ">
+            {newGoalUi && <SetNewGoal goalValue={goalValue} handleSetGoalUi={handleSetGoalUi} />}
             <div className="flex flex-row space-x-5">
                 <div className="w-48 h-48  flex flex-col justify-center text-secWhite">
                     <p className='font-light text-3xl'>Yesterday</p>
@@ -38,7 +44,7 @@ function ManageTimer({ }: Props) {
                                 textColor: "#fff",
                                 textSize: '24px'
                             })}>
-                            <p className='font-bold text-5xl'>8</p>
+                            <p className='font-bold text-5xl'>{goalValue}</p>
                             <p className='text-secWhite'>hours</p>
                         </CircularProgressbarWithChildren>
 
@@ -52,7 +58,7 @@ function ManageTimer({ }: Props) {
                 </div>
             </div>
             <div className=" flex flex-row space-x-10 ">
-                <Button type="normal" text="Set New Goal" className={'border-4 border-secWhite text-secWhite px-10 py-1'} />
+                <Button handleClick={handleSetGoalUi} type="normal" text="Set New Goal" className={'border-4 border-secWhite text-secWhite px-10 py-1'} />
             </div>
 
         </div>

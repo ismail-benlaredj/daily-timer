@@ -1,11 +1,11 @@
-import { useStoreActions } from "easy-peasy"
+import { useStoreActions } from '../lib/store';
 import { useEffect, useState } from "react"
 
 type Props = {
     start: boolean
 }
 export default function SessionRestTime({ start }: Props) {
-    const { AllrestTimeIncrement } = useStoreActions((actions: any) => actions.restTime)
+    const { AllrestTimeIncrement } = useStoreActions((actions) => actions.restTime)
     const [minutes, setMinutes] = useState(0)
     const [secondes, setSecondes] = useState(0)
     useEffect(() => {

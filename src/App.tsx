@@ -14,15 +14,18 @@ function App() {
     <div className=" w-2/3 m-auto py-10">
 
       {!startSession ?
-        <TimerStarter /> :
+        <>
+          <TimerStarter />
+          <ManageTimer />
+          <Analyse />
+        </>
+        :
         <LiveTimer />
       }
 
 
 
-      <ManageTimer />
 
-      <Analyse />
     </div>
   );
 }

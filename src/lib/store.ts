@@ -55,15 +55,28 @@ const restTime: AllrestTimeModel = {
         state.AllrestTimeValue = payload
     })
 }
+
+interface goalModel {
+    goalValue: number;
+    setGoal: Action<this, number>;
+
+}
+
+const goal: goalModel = {
+    goalValue: 8,
+    setGoal: action((state, payload) => {
+        state.goalValue = payload
+    }),
+
+}
+
 interface stateModel {
     actualSessionTime: number,
     AllRestTime: number,
-    goal: number,
 }
 const state: stateModel = {
     actualSessionTime: 0,
     AllRestTime: 0,
-    goal: 8,
 }
 
 
@@ -72,6 +85,7 @@ interface storeModel {
     sessionTime: sessionTimeModel;
     AllSessionsTime: AllSessionsTimeModel;
     restTime: AllrestTimeModel;
+    goal: goalModel;
     state: stateModel
 }
 const model: storeModel = {
@@ -79,6 +93,7 @@ const model: storeModel = {
     sessionTime,
     AllSessionsTime,
     restTime,
+    goal,
     state
 }
 
