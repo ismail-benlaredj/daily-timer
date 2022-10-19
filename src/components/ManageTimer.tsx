@@ -19,7 +19,7 @@ function ManageTimer({ }: Props) {
         return `${hours}:${minutes < 10 ? 0 : ''}${minutes}`
     }
     const calculatePercentage = (): number => {
-        let goalTimeInMinutes = 60 * 8
+        let goalTimeInMinutes = 60 * goalValue
         let percentage = AllSessionsTimeValue * 100 / goalTimeInMinutes
         return percentage
     }

@@ -42,7 +42,7 @@ const LiveTimer = (props: Props) => {
                     setSecondes(59)
                 }
                 setPercentage(() => calculatePercentage())
-            }, 1000)
+            }, 10)
             return () => clearInterval(interval)
         }
 
