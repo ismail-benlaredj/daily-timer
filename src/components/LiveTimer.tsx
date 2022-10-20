@@ -30,7 +30,10 @@ const LiveTimer = (props: Props) => {
             const interval = setInterval(() => {
                 if (minutes === 0 && secondes === 0) {
                     setPercentage(() => calculatePercentage())
-                    return () => clearInterval(interval)
+                    startSessionAction()
+                    return () => {
+                        clearInterval(interval)
+                    }
                 }
                 if (secondes > 0) {
                     setSecondes(secondes - 1)
@@ -42,7 +45,7 @@ const LiveTimer = (props: Props) => {
                     setSecondes(59)
                 }
                 setPercentage(() => calculatePercentage())
-            }, 10)
+            }, 1000)
             return () => clearInterval(interval)
         }
 

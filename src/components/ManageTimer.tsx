@@ -4,9 +4,8 @@ import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-pro
 import Button from './Button'
 import SetNewGoal from './SetNewGoal'
 
-type Props = {}
 
-function ManageTimer({ }: Props) {
+function ManageTimer() {
     const { goalValue } = useStoreState((state) => state.goal)
     const [newGoalUi, setNewGoalUi] = useState(false)
     const { AllrestTimeValue } = useStoreState((state) => state.restTime)
