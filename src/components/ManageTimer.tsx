@@ -25,7 +25,7 @@ function ManageTimer() {
 
     const handleSetGoalUi = () => setNewGoalUi(!newGoalUi)
     return (
-        <div className="mt-24 relative flex flex-col text-white text-center justify-center content-center items-center space-y-8 ">
+        <div className="mt-24 relative flex flex-col text-white text-center justify-center content-center items-center space-y-16">
             {newGoalUi && <SetNewGoal goalValue={goalValue} handleSetGoalUi={handleSetGoalUi} />}
             <div className="flex flex-row space-x-5">
                 <div className="w-48 h-48  flex flex-col justify-center text-secWhite">
@@ -46,6 +46,7 @@ function ManageTimer() {
                             <p className='font-bold text-5xl'>{goalValue}</p>
                             <p className='text-secWhite'>hours</p>
                         </CircularProgressbarWithChildren>
+                        <p className='my-2'>{`Completed : ${AllSessionsTimeValue} Minutes`}</p>
 
                     </div>
                 </div>
@@ -56,7 +57,7 @@ function ManageTimer() {
                     <p>hours</p>
                 </div>
             </div>
-            <div className=" flex flex-row space-x-10 ">
+            <div className=" flex flex-row space-x-10">
                 <Button handleClick={handleSetGoalUi} type="normal" text="Set New Goal" className={'border-4 border-secWhite text-secWhite px-10 py-1'} />
             </div>
 
