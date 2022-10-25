@@ -79,6 +79,23 @@ const state: stateModel = {
     AllRestTime: 0,
 }
 
+interface defaultModel {
+    defaultDayGoal: number;
+    defaultSessionTime: number;
+    setDefaultDayGoal: Action<this, number>;
+    setDefaultSessionTime: Action<this, number>;
+}
+
+const defaultData: defaultModel = {
+    defaultDayGoal: 8,
+    defaultSessionTime: 30,
+    setDefaultDayGoal: action((state, payload) => {
+        state.defaultDayGoal = payload
+    }),
+    setDefaultSessionTime: action((state, payload) => {
+        state.defaultSessionTime = payload
+    })
+}
 
 interface storeModel {
     startSession: startSessionModel;
@@ -87,6 +104,7 @@ interface storeModel {
     restTime: AllrestTimeModel;
     goal: goalModel;
     state: stateModel
+    defaultData: defaultModel
 }
 const model: storeModel = {
     startSession,
@@ -94,7 +112,8 @@ const model: storeModel = {
     AllSessionsTime,
     restTime,
     goal,
-    state
+    state,
+    defaultData
 }
 
 

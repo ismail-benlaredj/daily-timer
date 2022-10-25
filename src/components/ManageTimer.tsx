@@ -1,4 +1,4 @@
-import { useStoreState, useStoreActions } from '../lib/store';
+import { useStoreState } from '../lib/store';
 import { useState } from 'react'
 import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar'
 import Button from './Button'
