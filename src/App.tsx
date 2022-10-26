@@ -10,8 +10,8 @@ import { useStoreState, useStoreActions } from './lib/store';
 
 function App() {
   const startSession = useStoreState((state) => state.startSession.startState)
-  const { setDefaultDayGoal } = useStoreActions((actions) => actions.defaultData)
-  const { setDefaultSessionTime } = useStoreActions((actions) => actions.defaultData)
+  const { setGoal } = useStoreActions((actions) => actions.goal)
+  const { setDefaultSessionTime } = useStoreActions((actions) => actions.sessionTime)
   useLiveQuery(
     async () => {
       const res = await db.defaultData.toArray()
@@ -22,7 +22,7 @@ function App() {
           defaultSessionTime: 30
         })
       } else {
-        setDefaultDayGoal(res[0].defaultDayGoal)
+        setGoal(res[0].defaultDayGoal)
         setDefaultSessionTime(res[0].defaultSessionTime)
       }
     }

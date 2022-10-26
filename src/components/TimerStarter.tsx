@@ -16,7 +16,7 @@ export default function TimerStarter(): ReactElement {
 
     const handleStartSession = () => {
         startSessionAction()
-        updateDefaultData(sessionTimeValue, goalValue)
+        updateDefaultData(goalValue, sessionTimeValue)
     }
 
     return (

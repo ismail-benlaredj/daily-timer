@@ -1,4 +1,5 @@
 import { action, Action, createStore, createTypedHooks } from 'easy-peasy';
+import { getDefaultData } from './localDb';
 
 interface startSessionModel {
     startState: boolean;
@@ -16,6 +17,8 @@ interface sessionTimeModel {
     sessionTimeValue: number;
     sessionTimeIncrement: Action<sessionTimeModel>
     sessionTimeDecrement: Action<sessionTimeModel>
+    setDefaultSessionTime: Action<this, number>;
+
 }
 
 const sessionTime: sessionTimeModel = {
@@ -28,7 +31,11 @@ const sessionTime: sessionTimeModel = {
         if (state.sessionTimeValue > 15) {
             state.sessionTimeValue = state.sessionTimeValue - 15
         }
+    }),
+    setDefaultSessionTime: action((state, payload) => {
+        state.sessionTimeValue = payload
     })
+
 }
 
 interface AllSessionsTimeModel {
@@ -59,7 +66,6 @@ const restTime: AllrestTimeModel = {
 interface goalModel {
     goalValue: number;
     setGoal: Action<this, number>;
-
 }
 
 const goal: goalModel = {
@@ -79,23 +85,6 @@ const state: stateModel = {
     AllRestTime: 0,
 }
 
-interface defaultModel {
-    defaultDayGoal: number;
-    defaultSessionTime: number;
-    setDefaultDayGoal: Action<this, number>;
-    setDefaultSessionTime: Action<this, number>;
-}
-
-const defaultData: defaultModel = {
-    defaultDayGoal: 8,
-    defaultSessionTime: 30,
-    setDefaultDayGoal: action((state, payload) => {
-        state.defaultDayGoal = payload
-    }),
-    setDefaultSessionTime: action((state, payload) => {
-        state.defaultSessionTime = payload
-    })
-}
 
 interface storeModel {
     startSession: startSessionModel;
@@ -104,7 +93,6 @@ interface storeModel {
     restTime: AllrestTimeModel;
     goal: goalModel;
     state: stateModel
-    defaultData: defaultModel
 }
 const model: storeModel = {
     startSession,
@@ -113,7 +101,6 @@ const model: storeModel = {
     restTime,
     goal,
     state,
-    defaultData
 }
 
 

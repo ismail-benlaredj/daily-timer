@@ -2,15 +2,18 @@ import Button from "./Button"
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from "react-icons";
 import { useState } from "react";
-import { useStoreActions } from "../lib/store";
+import { useStoreActions, useStoreState } from "../lib/store";
+import { updateDefaultData } from "../lib/localDb";
 
 type Props = {
     goalValue: number;
     handleSetGoalUi: () => void;
 }
 function SetNewGoal({ goalValue, handleSetGoalUi }: Props) {
-    const [timeGoal, setTimeGoal] = useState(goalValue)
 
+    const [timeGoal, setTimeGoal] = useState(goalValue)
+    const { sessionTimeValue } = useStoreState((state) => state.sessionTime)
+    const setGoal = useStoreActions(action => action.goal.setGoal)
     const handleIncrement = () => {
         if (timeGoal < 12) {
             setTimeGoal(timeGoal + 1)
@@ -22,7 +25,11 @@ function SetNewGoal({ goalValue, handleSetGoalUi }: Props) {
         }
     }
 
-    const handleSetGoal = useStoreActions(action => action.goal.setGoal)
+    const handleSetGoal = (newGoal: number) => {
+        setGoal(newGoal)
+        updateDefaultData(newGoal, sessionTimeValue)
+
+    }
 
     return (
         <div className="flex items-center absolute w-full h-full">

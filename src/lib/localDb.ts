@@ -38,3 +38,12 @@ export const db = new dataBase();
 export const updateDefaultData = async (defaultDayGoal: number, defaultSessionTime: number) => {
     await db.defaultData.update(1, { defaultDayGoal, defaultSessionTime });
 }
+
+export const getDefaultData = async () => {
+    const res = await db.defaultData.toArray();
+
+    return {
+        defaultDayGoal: res[0].defaultDayGoal,
+        defaultSessionTime: res[0].defaultSessionTime
+    }
+}
