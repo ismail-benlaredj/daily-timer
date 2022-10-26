@@ -35,28 +35,6 @@ export class dataBase extends Dexie {
 
 export const db = new dataBase();
 
-
-
-
-
-
-// export class dataBase extends Dexie {
-//     // 'friends' is added by dexie when declaring the stores()
-//     // We just tell the typing system this is the case
-//     friends!: Table<Friend>;
-//     test: () => void
-//     constructor() {
-//         super('database');
-//         this.version(1).stores({
-//             friends: '++id, name, age' // Primary key and indexed props
-//         });
-//         this.test = async () => {
-//             await db.friends.add({
-//                 name: 'ismail',
-//                 age: 0
-//             });
-//         }
-//     }
-// }
-
-// export const db = new dataBase();
+export const updateDefaultData = async (defaultDayGoal: number, defaultSessionTime: number) => {
+    await db.defaultData.update(1, { defaultDayGoal, defaultSessionTime });
+}

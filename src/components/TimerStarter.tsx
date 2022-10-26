@@ -3,11 +3,21 @@ import Button from "./Button";
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 import { IconContext } from "react-icons";
 import { useStoreState, useStoreActions } from '../lib/store';
+import { updateDefaultData } from '../lib/localDb'
+
+
 export default function TimerStarter(): ReactElement {
     const { startSessionAction } = useStoreActions((actions) => actions.startSession)
     const { sessionTimeValue } = useStoreState((state) => state.sessionTime)
     const { sessionTimeIncrement } = useStoreActions((actions) => actions.sessionTime)
     const { sessionTimeDecrement } = useStoreActions((actions) => actions.sessionTime)
+    const { goalValue } = useStoreState((state) => state.goal)
+
+
+    const handleStartSession = () => {
+        startSessionAction()
+        updateDefaultData(sessionTimeValue, goalValue)
+    }
 
     return (
         <div className="flex flex-col text-white text-center justify-center content-center items-center ">
@@ -47,7 +57,9 @@ export default function TimerStarter(): ReactElement {
                 </div>
             </div>
             <div className="mt-10">
-                <Button text={'Lets go'} className={"border-4 text-greenLight border-greenLight"} handleClick={() => startSessionAction()} />
+                <Button text={'Lets go'}
+                    className={"border-4 text-greenLight border-greenLight"}
+                    handleClick={() => handleStartSession()} />
             </div>
 
 

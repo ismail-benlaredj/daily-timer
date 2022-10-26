@@ -12,20 +12,23 @@ function App() {
   const startSession = useStoreState((state) => state.startSession.startState)
   const { setDefaultDayGoal } = useStoreActions((actions) => actions.defaultData)
   const { setDefaultSessionTime } = useStoreActions((actions) => actions.defaultData)
-  const defaultData = useLiveQuery(
-    async () => db.defaultData.toArray()
+  useLiveQuery(
+    async () => {
+      const res = await db.defaultData.toArray()
+      if (!res?.length) {
+        db.defaultData.put({
+          id: 1,
+          defaultDayGoal: 8,
+          defaultSessionTime: 30
+        })
+      } else {
+        setDefaultDayGoal(res[0].defaultDayGoal)
+        setDefaultSessionTime(res[0].defaultSessionTime)
+      }
+    }
   );
 
-  if (!defaultData?.length) {
-    db.defaultData.put({
-      id: 1,
-      defaultDayGoal: 8,
-      defaultSessionTime: 30
-    })
-  } else {
-    setDefaultDayGoal(defaultData[0].defaultDayGoal)
-    setDefaultSessionTime(defaultData[0].defaultSessionTime)
-  }
+
 
   return (
     <div className=" w-2/3 m-auto py-10">
