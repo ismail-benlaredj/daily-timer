@@ -2,7 +2,11 @@ import Dexie, { Table } from 'dexie';
 
 export interface Day {
     id?: number;
-    date: string;
+    date: {
+        day: number,
+        month: number,
+        year: number
+    };
     dayGoal: number;
     workedTime: string;
     restTime: string;
@@ -47,3 +51,27 @@ export const getDefaultData = async () => {
         defaultSessionTime: res[0].defaultSessionTime
     }
 }
+
+
+export const addNewDay = async () => {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    // const res = await db.Days.where('date').equals({day,month,year}).toArray();
+    const res = await db.Days.orderBy('id').last();
+    const defaultGoal = await db.defaultData.toArray()
+    if (res && res.date.day === day && res.date.month === month && res.date.year === year) {
+        return;
+    } else {
+        await db.Days.put({
+            date: { day, month, year },
+            dayGoal: defaultGoal[0].defaultDayGoal,
+            workedTime: '00:00',
+            restTime: '00:00',
+            percentage: 0,
+            goalReached: false
+        });
+    }
+}
+

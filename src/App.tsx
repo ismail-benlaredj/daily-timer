@@ -4,9 +4,10 @@ import './App.css';
 import LiveTimer from './components/LiveTimer';
 import ManageTimer from './components/ManageTimer';
 import Analyse from './components/Analyse';
-import { db } from './lib/localDb';
+import { db, addNewDay } from './lib/localDb';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useStoreState, useStoreActions } from './lib/store';
+import { useEffect } from 'react';
 
 function App() {
   const startSession = useStoreState((state) => state.startSession.startState)
@@ -27,8 +28,9 @@ function App() {
       }
     }
   );
-
-
+  useEffect(() => {
+    addNewDay()
+  }, [])
 
   return (
     <div className=" w-2/3 m-auto py-10">

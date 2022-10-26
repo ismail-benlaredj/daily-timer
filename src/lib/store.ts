@@ -1,5 +1,4 @@
 import { action, Action, createStore, createTypedHooks } from 'easy-peasy';
-import { getDefaultData } from './localDb';
 
 interface startSessionModel {
     startState: boolean;
