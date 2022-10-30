@@ -1,4 +1,14 @@
-import { action, Action, createStore, createTypedHooks } from 'easy-peasy';
+import {
+    action,
+    Action,
+    createStore,
+    createTypedHooks,
+    thunkOn,
+    ThunkOn,
+    Computed,
+    computed
+} from 'easy-peasy';
+import { getDay, updateDay } from './localDb';
 
 interface startSessionModel {
     startState: boolean;
@@ -37,9 +47,10 @@ const sessionTime: sessionTimeModel = {
 
 }
 
-interface AllSessionsTimeModel {
+interface AllSessionsTimeModel extends stateModel {
     AllSessionsTimeValue: number;
     AllSessionsTimeIncrement: Action<AllSessionsTimeModel, number>
+    saveAllSessions: ThunkOn<AllSessionsTimeModel>
 }
 const AllSessionsTime: AllSessionsTimeModel = {
     AllSessionsTimeValue: 0,
@@ -47,7 +58,16 @@ const AllSessionsTime: AllSessionsTimeModel = {
         //payload is the value of secondesPassed (in secondes)
         let TimePassedInMinutes = Math.round(payload / 60)
         state.AllSessionsTimeValue = state.AllSessionsTimeValue + TimePassedInMinutes
-    })
+    }),
+    saveAllSessions: thunkOn(
+        (actions) => actions.AllSessionsTimeIncrement,
+        async (actions, payload, { getStoreState, getState }) => {
+            const { state }: any = getStoreState()
+            const { AllSessionsTimeValue } = getState()
+            const id = await state.computedDayId
+            updateDay(id, AllSessionsTimeValue, 'AllSessionsTimeValue')
+        }
+    )
 }
 
 interface AllrestTimeModel {
@@ -76,10 +96,16 @@ const goal: goalModel = {
 }
 
 interface stateModel {
-    actualSessionTime: number,
-    AllRestTime: number,
+    updateDayId?: Action<this, number>;
+    computedDayId?: Computed<stateModel, Promise<number | undefined>>
+    actualSessionTime?: number
+    AllRestTime?: number
 }
 const state: stateModel = {
+    computedDayId: computed(async (state) => {
+        const day = await getDay()
+        return day?.id
+    }),
     actualSessionTime: 0,
     AllRestTime: 0,
 }

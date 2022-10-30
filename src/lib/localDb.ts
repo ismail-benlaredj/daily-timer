@@ -8,8 +8,8 @@ export interface Day {
         year: number
     };
     dayGoal: number;
-    workedTime: string;
-    restTime: string;
+    AllSessionsTimeValue: number;
+    restTime: number;
     percentage: number;
     goalReached: boolean;
 }
@@ -51,27 +51,33 @@ export const getDefaultData = async () => {
         defaultSessionTime: res[0].defaultSessionTime
     }
 }
-
-
 export const addNewDay = async () => {
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    // const res = await db.Days.where('date').equals({day,month,year}).toArray();
-    const res = await db.Days.orderBy('id').last();
     const defaultGoal = await db.defaultData.toArray()
+    const res = await getDay()
+
     if (res && res.date.day === day && res.date.month === month && res.date.year === year) {
         return;
     } else {
         await db.Days.put({
             date: { day, month, year },
             dayGoal: defaultGoal[0].defaultDayGoal,
-            workedTime: '00:00',
-            restTime: '00:00',
+            AllSessionsTimeValue: 0,
+            restTime: 0,
             percentage: 0,
             goalReached: false
         });
     }
 }
 
+export const getDay = () => {
+    return db.Days.orderBy('id').last()
+}
+
+export const updateDay = async (id: number | undefined, payload: number, key: string) => {
+    console.log({ [key]: payload });
+    await db.Days.update(id || 0, { [key]: payload });
+}
