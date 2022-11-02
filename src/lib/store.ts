@@ -5,10 +5,8 @@ import {
     createTypedHooks,
     thunkOn,
     ThunkOn,
-    Computed,
-    computed
 } from 'easy-peasy';
-import { getDay, updateDay } from './localDb';
+import { updateDay } from './localDb';
 
 interface startSessionModel {
     startState: boolean;
@@ -47,7 +45,7 @@ const sessionTime: sessionTimeModel = {
 
 }
 
-interface AllSessionsTimeModel extends stateModel {
+interface AllSessionsTimeModel {
     AllSessionsTimeValue: number;
     AllSessionsTimeIncrement: Action<AllSessionsTimeModel, number>
     saveAllSessions: ThunkOn<AllSessionsTimeModel>
@@ -64,7 +62,7 @@ const AllSessionsTime: AllSessionsTimeModel = {
         async (actions, payload, { getStoreState, getState }) => {
             const { state }: any = getStoreState()
             const { AllSessionsTimeValue } = getState()
-            const id = await state.computedDayId
+            const id = state.dayId
             updateDay(id, AllSessionsTimeValue, 'AllSessionsTimeValue')
         }
     )
@@ -85,7 +83,7 @@ const restTime: AllrestTimeModel = {
         async (actions, payload, { getStoreState, getState }) => {
             const { state }: any = getStoreState()
             const { AllrestTimeValue } = getState()
-            const id = await state.computedDayId
+            const id = state.dayId
             updateDay(id, AllrestTimeValue, 'AllrestTimeValue')
         })
 }
@@ -105,19 +103,20 @@ const goal: goalModel = {
         async (actions, payload, { getStoreState, getState }) => {
             const { state }: any = getStoreState()
             const { goalValue } = getState()
-            const id = await state.computedDayId
+            const id = state.dayId
             updateDay(id, goalValue, 'dayGoal')
         })
 }
 
 interface stateModel {
-    computedDayId?: Computed<stateModel, Promise<number | undefined>>
+    dayId: number,
+    setDayId: Action<this, number>;
 }
 const state: stateModel = {
-    computedDayId: computed(async (state) => {
-        const day = await getDay()
-        return day?.id
-    }),
+    dayId: 0,
+    setDayId: action((state, payload) => {
+        state.dayId = payload
+    })
 }
 
 

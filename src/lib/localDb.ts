@@ -60,7 +60,7 @@ export const addNewDay = async () => {
     const res = await getDay()
 
     if (res && res.date.day === day && res.date.month === month && res.date.year === year) {
-        return;
+        return await getDay();
     } else {
         await db.Days.put({
             date: { day, month, year },
@@ -71,6 +71,7 @@ export const addNewDay = async () => {
             goalReached: false
         });
     }
+    return await getDay()
 }
 
 export const getDay = () => {

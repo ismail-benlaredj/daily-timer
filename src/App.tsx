@@ -13,6 +13,7 @@ function App() {
   const startSession = useStoreState((state) => state.startSession.startState)
   const { setGoal } = useStoreActions((actions) => actions.goal)
   const { setDefaultSessionTime } = useStoreActions((actions) => actions.sessionTime)
+  const { setDayId } = useStoreActions((actions) => actions.state)
   useLiveQuery(
     async () => {
       const res = await db.defaultData.toArray()
@@ -30,6 +31,8 @@ function App() {
   );
   useEffect(() => {
     addNewDay()
+      .then(res => res?.id && setDayId(res.id))
+
   }, [])
 
   return (
