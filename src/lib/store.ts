@@ -72,19 +72,28 @@ const AllSessionsTime: AllSessionsTimeModel = {
 
 interface AllrestTimeModel {
     AllrestTimeValue: number;
-    AllrestTimeIncrement: Action<AllrestTimeModel, number>
+    AllrestTimeIncrement: Action<AllrestTimeModel, number>;
+    saveAllRestTime: ThunkOn<AllrestTimeModel>
 }
 
 const restTime: AllrestTimeModel = {
     AllrestTimeValue: 0,
     AllrestTimeIncrement: action((state, payload) => {
-        state.AllrestTimeValue = payload
-    })
+        state.AllrestTimeValue = Math.round(payload / 60)
+    }),
+    saveAllRestTime: thunkOn(actions => actions.AllrestTimeIncrement,
+        async (actions, payload, { getStoreState, getState }) => {
+            const { state }: any = getStoreState()
+            const { AllrestTimeValue } = getState()
+            const id = await state.computedDayId
+            updateDay(id, AllrestTimeValue, 'AllrestTimeValue')
+        })
 }
 
 interface goalModel {
     goalValue: number;
     setGoal: Action<this, number>;
+    saveGoal: ThunkOn<goalModel>
 }
 
 const goal: goalModel = {
@@ -92,22 +101,23 @@ const goal: goalModel = {
     setGoal: action((state, payload) => {
         state.goalValue = payload
     }),
-
+    saveGoal: thunkOn(actions => actions.setGoal,
+        async (actions, payload, { getStoreState, getState }) => {
+            const { state }: any = getStoreState()
+            const { goalValue } = getState()
+            const id = await state.computedDayId
+            updateDay(id, goalValue, 'dayGoal')
+        })
 }
 
 interface stateModel {
-    updateDayId?: Action<this, number>;
     computedDayId?: Computed<stateModel, Promise<number | undefined>>
-    actualSessionTime?: number
-    AllRestTime?: number
 }
 const state: stateModel = {
     computedDayId: computed(async (state) => {
         const day = await getDay()
         return day?.id
     }),
-    actualSessionTime: 0,
-    AllRestTime: 0,
 }
 
 

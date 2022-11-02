@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Button from './Button';
@@ -22,14 +22,15 @@ const LiveTimer = (props: Props) => {
     const { startSessionAction } = useStoreActions((actions) => actions.startSession)
 
 
-    const calculatePercentage = () => {
-        return secondesPassed * 100 / sessionInSecondes
-    }
+    const calculatePercentage = useCallback(() =>
+        secondesPassed * 100 / sessionInSecondes, [secondesPassed, sessionInSecondes]
+    )
     useEffect(() => {
         if (!startRestTime) {
             const interval = setInterval(() => {
                 if (minutes === 0 && secondes === 0) {
                     setPercentage(() => calculatePercentage())
+                    AllSessionsTimeIncrement(secondesPassed)
                     startSessionAction()
                     return () => {
                         clearInterval(interval)
@@ -49,7 +50,7 @@ const LiveTimer = (props: Props) => {
             return () => clearInterval(interval)
         }
 
-    }, [minutes, secondes, percentage, startRestTime])
+    }, [minutes, secondes, percentage, startRestTime, startSessionAction, calculatePercentage, secondesPassed, AllSessionsTimeIncrement])
     return (
         <div className="my-24 flex flex-col text-white text-center justify-center content-center items-center space-y-8 ">
             <div className="flex flex-row space-x-5">

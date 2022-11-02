@@ -11,7 +11,7 @@ export default function SessionRestTime({ start }: Props) {
     useEffect(() => {
         if (start) {
             const interval = setInterval(() => {
-                if (secondes <= 59) {
+                if (secondes < 59) {
                     setSecondes(secondes + 1)
                 } else {
                     setMinutes(minutes + 1)
@@ -24,7 +24,7 @@ export default function SessionRestTime({ start }: Props) {
                 AllrestTimeIncrement(minutes * 60 + secondes)
             }
         }
-    }, [secondes, start])
+    }, [AllrestTimeIncrement, minutes, secondes, start])
     return (
         <div className="w-48 h-48 flex flex-col justify-start text-secWhite">
             <p className='font-light text-3xl'>Rest time</p>

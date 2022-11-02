@@ -9,7 +9,7 @@ export interface Day {
     };
     dayGoal: number;
     AllSessionsTimeValue: number;
-    restTime: number;
+    AllrestTimeValue: number;
     percentage: number;
     goalReached: boolean;
 }
@@ -30,7 +30,7 @@ export class dataBase extends Dexie {
     constructor() {
         super('database');
         this.version(1).stores({
-            Days: '++id, date, dayGoal,workedTime,restTime,percentage,goalReached',// Primary key and indexed props
+            Days: '++id, date, dayGoal,workedTime,AllrestTimeValue,percentage,goalReached',// Primary key and indexed props
             defaultData: 'id,defaultDayGoal,defaultSessionTime ' // Primary key and indexed props
         });
     }
@@ -66,7 +66,7 @@ export const addNewDay = async () => {
             date: { day, month, year },
             dayGoal: defaultGoal[0].defaultDayGoal,
             AllSessionsTimeValue: 0,
-            restTime: 0,
+            AllrestTimeValue: 0,
             percentage: 0,
             goalReached: false
         });
@@ -78,6 +78,5 @@ export const getDay = () => {
 }
 
 export const updateDay = async (id: number | undefined, payload: number, key: string) => {
-    console.log({ [key]: payload });
     await db.Days.update(id || 0, { [key]: payload });
 }
