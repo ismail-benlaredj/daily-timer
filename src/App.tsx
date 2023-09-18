@@ -7,6 +7,7 @@ import Analyse from './components/Analyse';
 import { db, addNewDay } from './lib/localDb';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useStoreState, useStoreActions } from './lib/store';
+
 import { useEffect } from 'react';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
     }
   );
   useEffect(() => {
+    //update Global state with the current day data
     addNewDay()
       .then(res => res?.id && setDayId(res.id))
 

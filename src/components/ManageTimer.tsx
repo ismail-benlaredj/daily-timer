@@ -1,11 +1,12 @@
 import { useStoreState } from '../lib/store';
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar'
 import Button from './Button'
 import SetNewGoal from './SetNewGoal'
-
+import { useRenders } from '../hooks/useRenders'
 
 function ManageTimer() {
+    useRenders()
     const { goalValue } = useStoreState((state) => state.goal)
     const [newGoalUi, setNewGoalUi] = useState(false)
     const { AllrestTimeValue } = useStoreState((state) => state.restTime)
@@ -17,11 +18,12 @@ function ManageTimer() {
         minutes = minutes % 60
         return `${hours}:${minutes < 10 ? 0 : ''}${minutes}`
     }
-    const calculatePercentage = (): number => {
+    const calculatePercentage = useCallback((): number => {
         let goalTimeInMinutes = 60 * goalValue
         let percentage = AllSessionsTimeValue * 100 / goalTimeInMinutes
+        console.log('object');
         return percentage
-    }
+    }, [AllSessionsTimeValue, goalValue])
 
     const handleSetGoalUi = () => setNewGoalUi(!newGoalUi)
     return (
